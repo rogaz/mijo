@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Register to <%= @event.name %></h1>
+
+<%= form_with model: @user, local: true, url: register_to_event_path(@event), method: :post do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<% @event.users.each do |user| %>
+  <div><%= user.email %></div>
+<% end %>
+
+<%= link_to 'Back', root_url %>

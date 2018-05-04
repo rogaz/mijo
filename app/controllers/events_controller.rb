@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :registry, :register]
 
   # GET /events
   # GET /events.json
@@ -61,6 +61,23 @@ class EventsController < ApplicationController
     end
   end
 
+  def registry
+    @user = User.new
+  end
+
+  def register
+    @user = User.find_by_email(user_params[:email]) || User.new(user_params)
+
+    respond_to do |format|
+      if (@user.new_record? and @user.save) or !@user.new_record?
+        @user.events << @event
+        format.html { redirect_to registry_to_event_url(@event), notice: "#{@user.email} registered to event '#{@event.name}'" }
+      else
+        format.html { render :registry }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -70,5 +87,9 @@ class EventsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
       params.require(:event).permit(:name, :start_date, :end_date, :max_students, :description)
+    end
+
+    def user_params
+      params.require(:user).permit(:email)
     end
 end
