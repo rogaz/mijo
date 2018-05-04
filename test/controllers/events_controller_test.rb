@@ -3,6 +3,7 @@ require 'test_helper'
 class EventsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @event = events(:one)
+    @event_two = events(:two)
   end
 
   test "should get index" do
@@ -21,6 +22,14 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to event_url(Event.last)
+  end
+
+  test "should not create one more event without name" do
+    assert_difference('Event.count', 0) do
+      post events_url, params: { event: { description: @event_two.description, end_date: @event_two.end_date, max_students: @event_two.max_students, start_date: @event_two.start_date } }
+    end
+
+    assert_response :success
   end
 
   test "should show event" do

@@ -15,10 +15,10 @@ class EventsTest < ApplicationSystemTestCase
     click_on "New Event"
 
     fill_in "Description", with: @event.description
-    # fill_in "End Date", with: @event.end_date
+    # fill_in "End date", with: @event.end_date
     fill_in "Max students", with: @event.max_students
     fill_in "Name", with: @event.name
-    # fill_in "Start Date", with: @event.start_date
+    # fill_in "Start date", with: @event.start_date
     click_on "Create Event"
 
     assert_text "Event was successfully created"

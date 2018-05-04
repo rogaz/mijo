@@ -4,11 +4,21 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
+<% 1.upto(100) do |i| %>
+event_<%= i %>:
+  name: "Event <%= i %>"
+  start_date: <%= DateTime.now %>
+  end_date: <%= 2.weeks.from_now %>
+  max_students: <%= i %>
+  description: <%= "Event #{i}" if (i%2).eql?(0) %>
+<% end %>
+
 one:
   name: "Ruby School"
   start_date: <%= DateTime.now %>
   end_date: <%= 6.weeks.from_now %>
   max_students: 20
+  description: "For the 3 next thursdays"
 
 two:
   name: "Tomorrowland"
